@@ -30,10 +30,20 @@ public class VisitorManager : MonoBehaviour
 	int picLayer;                                                   // layer des tableaux à tester pour le Raycast
 	public RaycastHit[] m_RaycastHitCache { get; private set; } = new RaycastHit[16];            // cache des résultats de lancer de rayon
 	public int hitCount { get; private set; } = 0;
-	private bool isOnPicture;
+	public int lastHitCount { get; private set; } = 0;
 
 	public GameObject tableaux;
 	Toile[] toiles;
+	[HideInInspector]
+	public Toile HighlightedToile;
+
+	Group[] artistes;
+	[HideInInspector]
+	public Group HighlightedArtist;
+
+	Multiptyque[] multis;
+	[HideInInspector]
+	public Multiptyque HighlightedMulti;
 
 	private void Awake() {
 		instance = this;
@@ -51,6 +61,8 @@ public class VisitorManager : MonoBehaviour
 		picLayer = 1 << LayerMask.NameToLayer("Pictures");                  // layer des tableaux
 
 		toiles = tableaux.GetComponentsInChildren<Toile>();
+		artistes = tableaux.GetComponentsInChildren<Group>();
+		multis = tableaux.GetComponentsInChildren<Multiptyque>();
 	}
 
 
@@ -61,85 +73,110 @@ public class VisitorManager : MonoBehaviour
 		}
 
 		// Lancer de rayon de la caméra vers le pointeur de souris
-		Ray screenRay = CameraManager.instance.gameplayCamera.ScreenPointToRay(Input.mousePosition);
+		Ray screenRay = CameraManager.instance.gameplayCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 		hitCount = Physics.SphereCastNonAlloc(screenRay, .01f, m_RaycastHitCache, 1000.0f, picLayer);
 		//Debug.DrawLine(CameraManager.instance.gameplayCamera.transform.position, CameraManager.instance.currentVcam.transform.position + CameraManager.instance.currentVcam.transform.forward);
+
 		// Le pointeur est-il sur une toile ou un groupe?
-		isOnPicture = hitCount > 0;
-		navUI.Show(true);
-		navUI.crosshair.color = Color.white;
+		//navUI.Show(true);
 
-		foreach (Toile toile in toiles) {
-			toile.Highlight(false);
-		}
-
-		// si on est sur le visiteur 
-		//if (CameraManager.instance.currentVcam == visitorCam) {
-		// Masquer le curseur
-		if (isOnPicture) {
-			navUI.crosshair.color = Color.yellow;
-			for (int i = 0; i < hitCount; i++) {
-				Rigidbody rigidbody = m_RaycastHitCache[i].collider.attachedRigidbody;
-				if (rigidbody) {
-					Multiptyque multi = rigidbody.GetComponent<Multiptyque>();
-					if (multi) {
-						multi.Highlight(true);
-					} else {
-						Toile toile = rigidbody.GetComponentInChildren<Toile>();
-						if (toile != null) {
-							toile.Highlight(true);
+		if (hitCount != lastHitCount) {
+			if (hitCount > 0) {
+				for (int i = 0; i < hitCount; i++) {
+					Rigidbody rigidbody = m_RaycastHitCache[i].collider.attachedRigidbody;
+					if (rigidbody) {
+						Group artiste = rigidbody.GetComponentInChildren<Group>();
+						if (artiste && artiste.enabled) {
+							artiste.Highlight(true);
+							navUI.crosshair.color = Color.yellow;
 							break;
+						} else {
+							Multiptyque multi = rigidbody.GetComponent<Multiptyque>();              // sur un tableau multiple
+							if (multi && multi.enabled) {
+								multi.Highlight(true);
+								navUI.crosshair.color = Color.yellow;
+								break;
+							} else {
+								Toile toile = rigidbody.GetComponentInChildren<Toile>();
+								if (toile && toile.enabled) {                                                // sur une toile
+									toile.Highlight(true);
+									navUI.crosshair.color = Color.yellow;
+									break;
+								} else {
+									Debug.Log("unknown");
+									navUI.Show(true);
+								}
+							}
+
 						}
+					} else {
+						Debug.Log("no rigidbody");
+						navUI.Show(true);
 					}
 				}
+			} else {
+				navUI.crosshair.color = Color.white;
+				foreach (Group artist in artistes) {
+					artist.Highlight(false);
+				}
+				foreach (Multiptyque multi in multis) {
+					multi.Highlight(false);
+				}
+				foreach (Toile toile in toiles) {
+					toile.Highlight(false);
+				}
+				navUI.Show(true);
+
 			}
+			lastHitCount = hitCount;
 		}
-		//}
 
 
 
 		// vitesse de déplacement
 		navAgent.speed = normalSpeed * ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) ? shiftSpeedFactor : 1f);
 
-		// Gestion du clic droit pour quitter un groupe
+		// Gestion du clic droit pour quitter un groupe ou un tableau
 		if (Input.GetMouseButtonDown(1)) {
 			ActivateCam();                              // activer la caméra du visiteur
 		}
-		if (Application.platform != RuntimePlatform.Android) {
-			// déplacements au clavier
-			if (CameraManager.instance.currentVcam == visitorCam) {
-				if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
-					MoveForward();
-				}
-				if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
-					MoveBackward();
-				}
-				if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
-					MoveLeft();
-				}
-				if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
-					MoveRight();
-				}
+
+		//if (Application.platform != RuntimePlatform.Android) {
+		// déplacements au clavier
+		if (CameraManager.instance.currentVcam == visitorCam) {
+			if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.UpArrow)) {
+				MoveForward();
 			}
-		} else {
-			// déplacements avec 2 doigts
-			if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) {
-				Vector2 move = (Input.GetTouch(0).deltaPosition + Input.GetTouch(1).deltaPosition) / 2f;
-				if (Mathf.Abs(move.x) > Mathf.Abs(move.y)) { // mouvemnt horizontal => déplacement latéral
-					if (move.x < 0) {
-						MoveLeft();
-					} else {
-						MoveRight();
-					}
-				} else {                                    // mouvemnt vertical => déplacement avant/arrière
-					if (move.y < 0) {
-						MoveForward();
-					} else {
-						MoveBackward();
-					}
-				}
+			if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
+				MoveBackward();
+			}
+			if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow)) {
+				MoveLeft();
+			}
+			if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
+				MoveRight();
 			}
 		}
+
+		//} else {
+		//	// déplacements avec 2 doigts
+		//	if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) {
+		//		Vector2 move = (Input.GetTouch(0).deltaPosition + Input.GetTouch(1).deltaPosition) / 2f;
+		//		if (Mathf.Abs(move.x) > Mathf.Abs(move.y)) { // mouvemnt horizontal => déplacement latéral
+		//			if (move.x < 0) {
+		//				MoveLeft();
+		//			} else {
+		//				MoveRight();
+		//			}
+		//		} else {                                    // mouvemnt vertical => déplacement avant/arrière
+		//			if (move.y < 0) {
+		//				MoveForward();
+		//			} else {
+		//				MoveBackward();
+		//			}
+		//		}
+		//	}
+		//}
 	}
 
 	private void MoveForward() {

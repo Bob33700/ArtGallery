@@ -37,9 +37,24 @@ public class Multiptyque : MonoBehaviour
 			cam.gameObject.SetActive(false);
 		}
 		localCams.Remove(groupCam);
+
+		enabled = false;
 	}
 
-	public void OnMouseUp() {
+	private void OnBecameVisible() {
+		enabled = true;
+	}
+
+	private void OnBecameInvisible() {
+		enabled = false;
+	}
+
+	private void Update() {
+		if (Input.GetMouseButtonUp(0) && CameraManager.instance.currentVcam != groupCam && VisitorManager.instance.HighlightedMulti == this)
+			Select();
+	}
+
+	public void Select() {
 		GameObject activeCam = CameraManager.instance.cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
 
 		if (groupCam != null && !groupCam.gameObject.activeInHierarchy && !localCams.Contains(activeCam.GetComponent<CinemachineVirtualCamera>())) {
@@ -88,9 +103,14 @@ public class Multiptyque : MonoBehaviour
 	}
 
 	public void Highlight(bool on) {
-		foreach(Toile toile in GetComponentsInChildren<Toile>()) {
+		foreach (Toile toile in GetComponentsInChildren<Toile>()) {
 			toile.Highlight(on);
 		}
+		VisitorManager.instance.HighlightedToile = null;
+		if (on)
+			VisitorManager.instance.HighlightedMulti = this;
+		else 
+			VisitorManager.instance.HighlightedMulti = null;
 	}
 
 }

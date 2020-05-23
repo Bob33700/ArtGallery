@@ -53,19 +53,4 @@ public class CameraManager : MonoBehaviour
 	public void RestoreFocalDistance(CinemachineVirtualCamera vCam) {
 		m_CurrentDistance = (vCam.m_Lens.FieldOfView - MinAngle) / (MaxAngle - MinAngle);
 	}
-
-	///// <summary>
-	///// Placer le curseur au centre de l'écran
-	///// bloquer le curseur une fraction de seconde
-	///// </summary>
-	///// <returns></returns>
-	//public void CenterCursor() {
-	//	StartCoroutine(ICenterCursor());                                     // centrer le curseur (pour éviter de décentrer l'affichage
-	//}
-	//public IEnumerator ICenterCursor() {
-	//	Cursor.lockState = CursorLockMode.Locked;
-	//	yield return new WaitForSeconds(.5f);
-	//	Cursor.lockState = CursorLockMode.None;
-	//}
-
 }

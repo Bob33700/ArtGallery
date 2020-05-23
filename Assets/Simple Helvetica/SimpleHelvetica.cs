@@ -44,7 +44,6 @@ public class SimpleHelvetica : MonoBehaviour
 	private float CharXLocation = 0f;
 	private float CharYLocation = 0f;
 	private float TextWidth = 0f;
-	private float TextHeight = 0f;
 	private float LineWidth = 0f;
 	private float LineHeight = 0f;
 
@@ -70,6 +69,15 @@ public class SimpleHelvetica : MonoBehaviour
 		transform.Find("_Alphabets").gameObject.SetActiveRecursively(false);
 #endif
 
+	}
+
+	private void Start() {
+		Material mat = GetComponent<MeshRenderer>().sharedMaterial;
+		foreach (Transform child in transform) {
+			if (child.name != "_Alphabets") {
+				child.GetComponent<MeshRenderer>().sharedMaterial = mat;
+			}
+		}
 	}
 
 	//Reset is called when the reset button is clicked on the inspector
@@ -459,11 +467,11 @@ public class SimpleHelvetica : MonoBehaviour
 		bool selfMesherRendererUseLightProbes = selfMeshRenderer.useLightProbes;
 		Transform selfMesherRendererLightProbeAnchor = selfMeshRenderer.probeAnchor;
 
-		Debug.Log("Apply MeshRenderer");
+		//Debug.Log("Apply MeshRenderer");
 
 		foreach (Transform child in transform.Find("_Alphabets")) {
 			MeshRenderer thisMeshRenderer = child.gameObject.GetComponent<MeshRenderer>();
-			Debug.Log(selfMeshRenderer);
+			//Debug.Log(selfMeshRenderer);
 			if (thisMeshRenderer != null) {
 				thisMeshRenderer.castShadows = selfMesherRendererCastShadows;
 				thisMeshRenderer.receiveShadows = selfMesherRendererReceiveShadows;

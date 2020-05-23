@@ -11,13 +11,18 @@ public class Group : MonoBehaviour
 	public CinemachineVirtualCamera groupCam { get; private set; }
 
 	public List<CinemachineVirtualCamera> localCams { get; private set; }
-	public Vector3 parentScale;
+	private Vector3 parentScale;
 	private Quaternion rot;
 	private Vector3 pos;
 	private float angle;
 
 	VisitorManager visitorManager;
 	NavMeshAgent visitor;
+
+	SimpleHelvetica nom;
+	Material mat;
+	private Color baseColor = Color.black;
+	private Color highlightColor = Color.grey;
 
 
 	private void Awake() {
@@ -44,17 +49,45 @@ public class Group : MonoBehaviour
 		}
 		localCams.Remove(groupCam);
 
-		//CreateNameCollider();
+		nom = GetComponentInChildren<SimpleHelvetica>();
+		mat = nom.GetComponent<MeshRenderer>().material;
+		Tableaux tableaux = GetComponentInParent<Tableaux>();
+		if (tableaux) {
+			baseColor = tableaux.nameBaseColor;
+			highlightColor = tableaux.nameHighlightColor;
+		}
+
+		enabled = false;
 	}
 
+	private void OnBecameVisible() {
+		enabled = true;
+	}
 
-	public void OnMouseUp() {
+	private void OnBecameInvisible() {
+		enabled = false;
+	}
+
+	private void Update() {
+		if (CameraManager.instance.currentVcam != groupCam && Input.GetMouseButtonUp(0) && VisitorManager.instance.HighlightedArtist == this)
+			Select();
+	}
+
+	public void Select() {
 		GameObject activeCam = CameraManager.instance.cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
 
 		if (groupCam != null && !groupCam.gameObject.activeInHierarchy && !localCams.Contains(activeCam.GetComponent<CinemachineVirtualCamera>())) {
 			SetActive(true);
 		}
 	}
+
+	//public void OnMouseUp() {
+	//	GameObject activeCam = CameraManager.instance.cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
+
+	//	if (groupCam != null && !groupCam.gameObject.activeInHierarchy && !localCams.Contains(activeCam.GetComponent<CinemachineVirtualCamera>())) {
+	//		SetActive(true);
+	//	}
+	//}
 
 	public void SetActive(bool on) {
 		if (on) {
@@ -72,8 +105,6 @@ public class Group : MonoBehaviour
 			GroupUI.instance.ShowLabelUI(false);
 			GroupUI.instance.ShowBackUI(true);
 
-			//StartCoroutine(CenterCursor());
-
 		} else {
 
 		}
@@ -87,7 +118,7 @@ public class Group : MonoBehaviour
 			bounds.Encapsulate(nextCollider.bounds);
 		}
 		var y = (bounds.center.y - transform.parent.position.y) * parentScale.y;
-		var vertical = Mathf.Abs(Mathf.Atan(bounds.size.y * parentScale.y / 2f / camDistance) * 2f * Mathf.Rad2Deg );
+		var vertical = Mathf.Abs(Mathf.Atan(bounds.size.y * parentScale.y / 2f / camDistance) * 2f * Mathf.Rad2Deg);
 		var horizontal = Mathf.Abs(Mathf.Atan(bounds.size.z * parentScale.z / 2f / camDistance) * Mathf.Rad2Deg);
 
 		groupCam.transform.localPosition = new Vector3(0f, y, -camDistance);
@@ -98,18 +129,22 @@ public class Group : MonoBehaviour
 
 	}
 
-	private void CreateNameCollider() {
-		SimpleHelvetica name = GetComponentInChildren<SimpleHelvetica>();
-		if (name) {
-			BoxCollider bc = name.gameObject.AddComponent<BoxCollider>();
-			bc.center = name.transform.position;
-			bc.size = Vector3.zero;
-			Bounds bounds = new Bounds() { center = name.transform.position, size = Vector3.zero };
-			foreach (Collider c in name.GetComponentsInChildren<Collider>(false)) {
-				bounds.Encapsulate(c.bounds);
+	public void Highlight(bool on) {
+		if (mat) {
+			if (CameraManager.instance.currentVcam != groupCam && NavUI.instance.showCrosshair) {
+				if (on && mat.GetColor("_Color") != highlightColor) {
+					mat.SetColor("_Color", highlightColor);
+					nom.ApplyMeshRenderer();
+					VisitorManager.instance.HighlightedArtist = this;
+					//mat.SetColor("_EmissionColor", highlightColor);
+				} else if (!on && mat.GetColor("_Color") != baseColor) {
+					mat.SetColor("_Color", baseColor);
+					nom.ApplyMeshRenderer();
+					VisitorManager.instance.HighlightedArtist = null;
+					//mat.SetColor("_EmissionColor", Color.black);
+				}
 			}
-			bc.size = new Vector3(bounds.size.x * parentScale.x, bounds.size.y * parentScale.y, bounds.size.z * parentScale.z);
-			bc.center = new Vector3(Mathf.Abs(bc.size.x / 2f), -4f, 0);
 		}
 	}
+
 }

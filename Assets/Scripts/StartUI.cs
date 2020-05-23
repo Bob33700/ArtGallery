@@ -3,7 +3,7 @@
 public class StartUI : MonoBehaviour
 {
 	public Transform cible;
-	public Toile accueil;
+	public Accueil accueil;
 	public float distance = 3f;
 
 
@@ -28,7 +28,7 @@ public class StartUI : MonoBehaviour
 			this.accueil = accueil;
 		}
 		override public void Run() {
-			accueil.OnMouseUp();
+			accueil.Select();
 		}
 	}
 }

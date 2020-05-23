@@ -20,12 +20,6 @@ public class Toile : MonoBehaviour
 	private CinemachineVirtualCamera canvasCam;
 	private float angle;
 
-
-	private bool isOnPicture;
-	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];            // cache des résultats de lancer de rayon
-	int hitCount = 0;
-	int picLayer;                                                   // layer des tableaux à tester pour le Raycast
-
 	[Header("mouvements de caméra")]
 	public Transform pivot;
 	public Transform orbital;
@@ -36,13 +30,12 @@ public class Toile : MonoBehaviour
 	private Group group;
 
 
-	Material mat;
+	public Material mat { get; private set; }
 
 	private void Awake() {
 	}
 
-	private void Start() {
-		picLayer = 1 << LayerMask.NameToLayer("Pictures");                          // layer des tableaux (pour gérer le pointeur de souris)
+	public virtual void Start() {
 
 		// caméra du tableau
 		canvasCam = toile.GetComponentInChildren<CinemachineVirtualCamera>(true);   // identifier la caméra
@@ -51,7 +44,7 @@ public class Toile : MonoBehaviour
 		SetCamPosition();                                                           // préparer la gestion du mouvement de caméra
 
 		// groupe
-		group = GetComponentInParent<Artiste>().GetComponentInChildren<Group>();
+		group = GetComponentInParent<Artiste>()?.GetComponentInChildren<Group>();
 
 		mat = toile.GetComponent<MeshRenderer>().material;
 		if (oeuvre) {
@@ -62,42 +55,33 @@ public class Toile : MonoBehaviour
 			mat.SetColor("_EmissionColor", Color.black);
 			toile.GetComponent<MeshRenderer>().material = mat;
 		}
-		//if (label) {
-		//	mat = Instantiate(Resources.Load<Material>("Toile"));
-		//	mat.SetTexture("_MainTex", label);
-		//	mat.SetTexture("_EmissionMap", label);
-		//	mat.SetColor("_Color", Color.white);
-		//	mat.SetColor("_EmissionColor", Color.black);
-		//	etiquette.GetComponent<MeshRenderer>().material = mat;
-		//}
+
+		enabled = false;
 	}
 
+	private void OnBecameVisible() {
+		enabled = true;
+	}
+
+	private void OnBecameInvisible() {
+		if (CameraManager.instance.currentVcam != canvasCam)
+			enabled = false;
+	}
 
 	private void Update() {
 		// si on est sur le tableau 
 		if (CameraManager.instance.currentVcam == canvasCam) {
-
-			if (rotateAroundPivot) {                    // si le mouvement de caméra est activé
+			if (rotateAroundPivot && !NavUI.instance.crosshair.enabled) {                    // si le mouvement de caméra est activé
 				RotateAroundPivot();                    // bouger la caméra
 			}
 
+		} else {
+			if (Input.GetMouseButtonUp(0) && VisitorManager.instance.HighlightedToile == this)
+				Select();
 		}
-
-
-		if (CameraManager.instance.currentVcam == VisitorManager.instance.visitorCam) {
-
-		}
-
 	}
 
-	private void OnMouseDown() {
-		//if (canvasCam != null && !canvasCam.gameObject.activeInHierarchy) {
-		//	CameraManager.instance.CenterCursor();                              // centrer le curseur (pour éviter de décentrer l'affichage
-		//}
-	}
-
-	// Gestion du clic sur le tableau ou son étiquette
-	public void OnMouseUp() {
+	public void Select() {
 		// si on n'est pas déjà sur le tableau
 		if (canvasCam != null && !canvasCam.gameObject.activeInHierarchy) {
 			CameraManager.instance.currentVcam.gameObject.SetActive(false);     // désactiver la caméra courante
@@ -105,6 +89,8 @@ public class Toile : MonoBehaviour
 			canvasCam.m_Lens.FieldOfView = angle;                               // réinitialiser le zoom
 			canvasCam.gameObject.SetActive(true);                               // activer la caméra du tableau
 			canvasCam.transform.rotation = new Quaternion();
+			Highlight(false);
+			NavUI.instance.Show(false);
 
 			//UI 
 			GroupUI.instance.SetLabel(etiquette);                               // initialiser l'étiquette
@@ -118,7 +104,6 @@ public class Toile : MonoBehaviour
 			}
 		}
 	}
-
 
 	private void SetCamPosition() {
 		parentScale = transform.InverseTransformVector(transform.parent.localScale);    // facteur d'échelle
@@ -155,15 +140,18 @@ public class Toile : MonoBehaviour
 	}
 
 
-	public void Highlight(bool on) {
+	public virtual void Highlight(bool on) {
 		//mat.EnableKeyword("_EmissionEnabled");
 		if (CameraManager.instance.currentVcam != canvasCam && NavUI.instance.showCrosshair && on) {
-			mat.SetColor("_Color", Color.white);
-			mat.SetColor("_EmissionColor", highlightColor);
+			if (VisitorManager.instance.HighlightedToile != this) {
+				mat.SetColor("_Color", Color.white);
+				mat.SetColor("_EmissionColor", highlightColor);
+				VisitorManager.instance.HighlightedToile = this;
+			}
 		} else {
 			mat.SetColor("_Color", Color.white);
 			mat.SetColor("_EmissionColor", Color.black);
-
+			VisitorManager.instance.HighlightedToile = null;
 		}
 		if (CameraManager.instance.currentVcam == canvasCam && on) {
 			NavUI.instance.Show(false);
