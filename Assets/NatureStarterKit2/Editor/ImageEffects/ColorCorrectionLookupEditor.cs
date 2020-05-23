@@ -51,7 +51,8 @@ namespace UnityStandardAssets.ImageEffects
                     if (textureImporter.mipmapEnabled == true) {
                         doImport = true;
                     }
-                    if (textureImporter.textureFormat != TextureImporterFormat.AutomaticTruecolor) {
+                    if (textureImporter.textureCompression != TextureImporterCompression.Uncompressed) {
+                    //if (textureImporter.textureFormat != TextureImporterFormat.AutomaticTruecolor) {
                         doImport = true;
                     }
 
