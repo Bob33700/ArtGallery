@@ -3,7 +3,7 @@
 public class StartUI : MonoBehaviour
 {
 	public Transform cible;
-	public Accueil accueil;
+	public Selectable accueil;
 	public float distance = 3f;
 
 
@@ -23,8 +23,8 @@ public class StartUI : MonoBehaviour
 
 	class JoinToile: VisitorManager.Action
 	{
-		Toile accueil;
-		public JoinToile(Toile accueil) {
+		Selectable accueil;
+		public JoinToile(Selectable accueil) {
 			this.accueil = accueil;
 		}
 		override public void Run() {

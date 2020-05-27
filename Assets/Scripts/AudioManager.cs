@@ -35,21 +35,17 @@ public class AudioManager : MonoBehaviour
 		presets[0] = new float[3] { 1, 0, 0 };
 		presets[1] = new float[3] { 0, 1, 0 };
 		presets[2] = new float[3] { 0, 0, 1 };
-
-		//PreloadAudio();
-
 	}
 
 	// précharger les audioclips en arrière plan
 	private void PreloadAudio() {
-		Toile[] toiles = tableaux.GetComponentsInChildren<Toile>();
+		SelectableToile[] toiles = tableaux.GetComponentsInChildren<SelectableToile>();
 		List<AudioClip> clips = new List<AudioClip>();
-		foreach (Toile toile in toiles) {
+		foreach (SelectableToile toile in toiles) {
 			clips.Add(toile.audioClip);
 			toile.audioClip.LoadAudioData();
 		}
 	}
-
 
 	// passer progressivement en musique d'ambiance
 	public void SetAmbiance() {

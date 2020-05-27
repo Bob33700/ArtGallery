@@ -56,6 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1377996619748584089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,6 +151,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -173,6 +176,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &903970764195711920
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -287,6 +291,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -311,6 +316,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4732906392483446006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +610,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -628,6 +635,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8426559167173261014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -870,7 +878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 337719931282452135}
-  - component: {fileID: 2761434181284614555}
+  - component: {fileID: 5680970402187118641}
   - component: {fileID: 4833622571426374072}
   - component: {fileID: 8814298693884570918}
   m_Layer: 0
@@ -896,7 +904,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2761434181284614555
+--- !u!114 &5680970402187118641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -905,20 +913,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5109521762158074025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 996574278a31c154d926ced5b701da01, type: 3}
+  m_Script: {fileID: 11500000, guid: 779c97ea6efe5e946ae05f18a9c9498a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightable: {fileID: 3550512604883966792}
+  colorOn: {r: 1, g: 1, b: 1, a: 1}
+  colorOff: {r: 1, g: 1, b: 1, a: 1}
+  emissionOn: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  emissionOff: {r: 0, g: 0, b: 0, a: 1}
+  camDistance: 200
+  angle: 0
+  exitPosition: {x: 0, y: 0, z: 0}
   toile: {fileID: 4958801493502785714}
-  oeuvre: {fileID: 0}
-  highlightColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   etiquette: {fileID: 4446554584856068367}
-  label: {fileID: 0}
   audioClip: {fileID: 0}
-  volume: 0.6
+  volume: 0.8
+  slideDistance: 0.5
   pivot: {fileID: 8929311975656074729}
   orbital: {fileID: 1113285998111748240}
+  rotationSpeed: 0.15
   rotateAroundPivot: 1
-  rotationSpeed: 0.5
 --- !u!54 &4833622571426374072
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -933,7 +947,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!23 &8814298693884570918
 MeshRenderer:
@@ -950,6 +964,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -974,6 +989,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7409111197058349783
 GameObject:
   m_ObjectHideFlags: 0

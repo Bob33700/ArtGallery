@@ -33,17 +33,14 @@ public class VisitorManager : MonoBehaviour
 	public int lastHitCount { get; private set; } = 0;
 
 	public GameObject tableaux;
-	Toile[] toiles;
-	[HideInInspector]
-	public Toile HighlightedToile;
+	Selectable[] selectables;
 
-	Group[] artistes;
 	[HideInInspector]
-	public Group HighlightedArtist;
+	public Selectable highlighted;
+	[HideInInspector]
+	public Selectable target;
 
-	Multiptyque[] multis;
-	[HideInInspector]
-	public Multiptyque HighlightedMulti;
+
 
 	private void Awake() {
 		instance = this;
@@ -60,9 +57,7 @@ public class VisitorManager : MonoBehaviour
 
 		picLayer = 1 << LayerMask.NameToLayer("Pictures");                  // layer des tableaux
 
-		toiles = tableaux.GetComponentsInChildren<Toile>();
-		artistes = tableaux.GetComponentsInChildren<Group>();
-		multis = tableaux.GetComponentsInChildren<Multiptyque>();
+		selectables = tableaux.GetComponentsInChildren<Selectable>();
 	}
 
 
@@ -85,30 +80,40 @@ public class VisitorManager : MonoBehaviour
 				for (int i = 0; i < hitCount; i++) {
 					Rigidbody rigidbody = m_RaycastHitCache[i].collider.attachedRigidbody;
 					if (rigidbody) {
-						Group artiste = rigidbody.GetComponentInChildren<Group>();
-						if (artiste && artiste.enabled) {
-							artiste.Highlight(true);
+						Selectable selectable = rigidbody.GetComponentInChildren<Selectable>();
+						if (selectable && selectable.enabled) {
+							selectable.Highlight(true);
 							navUI.crosshair.color = Color.yellow;
 							break;
 						} else {
-							Multiptyque multi = rigidbody.GetComponent<Multiptyque>();              // sur un tableau multiple
-							if (multi && multi.enabled) {
-								multi.Highlight(true);
-								navUI.crosshair.color = Color.yellow;
-								break;
-							} else {
-								Toile toile = rigidbody.GetComponentInChildren<Toile>();
-								if (toile && toile.enabled) {                                                // sur une toile
-									toile.Highlight(true);
-									navUI.crosshair.color = Color.yellow;
-									break;
-								} else {
-									Debug.Log("unknown");
-									navUI.Show(true);
-								}
-							}
-
+							Debug.Log("unknown");
+							navUI.Show(true);
 						}
+
+
+						//Group artiste = rigidbody.GetComponentInChildren<Group>();
+						//if (artiste && artiste.enabled) {
+						//	artiste.Highlight(true);
+						//	navUI.crosshair.color = Color.yellow;
+						//	break;
+						//} else {
+						//	Multiptyque multi = rigidbody.GetComponent<Multiptyque>();              // sur un tableau multiple
+						//	if (multi && multi.enabled) {
+						//		multi.Highlight(true);
+						//		navUI.crosshair.color = Color.yellow;
+						//		break;
+						//	} else {
+						//		Toile toile = rigidbody.GetComponentInChildren<Toile>();
+						//		if (toile && toile.enabled) {                                                // sur une toile
+						//			toile.Highlight(true);
+						//			navUI.crosshair.color = Color.yellow;
+						//			break;
+						//		} else {
+						//			Debug.Log("unknown");
+						//			navUI.Show(true);
+						//		}
+						//	}
+						//}
 					} else {
 						Debug.Log("no rigidbody");
 						navUI.Show(true);
@@ -116,15 +121,10 @@ public class VisitorManager : MonoBehaviour
 				}
 			} else {
 				navUI.crosshair.color = Color.white;
-				foreach (Group artist in artistes) {
-					artist.Highlight(false);
-				}
-				foreach (Multiptyque multi in multis) {
-					multi.Highlight(false);
-				}
-				foreach (Toile toile in toiles) {
-					toile.Highlight(false);
-				}
+				highlighted?.Highlight(false);
+				//foreach (Selectable selectable in selectables) {
+				//	selectable.Highlight(false);
+				//}
 				navUI.Show(true);
 
 			}

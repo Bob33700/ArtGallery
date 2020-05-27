@@ -81,6 +81,10 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _NORMALMAP _SPECGLOSSMAP
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _NORMALMAP _SPECGLOSSMAP
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _NORMALMAP _SPECGLOSSMAP
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _NORMALMAP
@@ -91,6 +95,8 @@ ShaderVariantCollection:
       - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN _NORMALMAP _SPECGLOSSMAP
         passType: 4
       - keywords: DIRECTIONAL _ALPHABLEND_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _ALPHABLEND_ON _NORMALMAP _SPECGLOSSMAP
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHABLEND_ON _NORMALMAP
           _SPECGLOSSMAP
@@ -166,14 +172,22 @@ ShaderVariantCollection:
         passType: 11
       - keywords: EDITOR_VISUALIZATION _SPECGLOSSMAP
         passType: 11
+      - keywords: EDITOR_VISUALIZATION _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        passType: 11
   - first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
       - keywords: DIRECTIONAL
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
         passType: 4
@@ -185,9 +199,15 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _EMISSION
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _EMISSION
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _EMISSION
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _EMISSION
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _EMISSION
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK _EMISSION
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
           _EMISSION
@@ -205,6 +225,8 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _ALPHATEST_ON
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _ALPHATEST_ON
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _ALPHATEST_ON
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHATEST_ON
@@ -212,6 +234,8 @@ ShaderVariantCollection:
       - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN _ALPHATEST_ON
         passType: 4
       - keywords: DIRECTIONAL _ALPHABLEND_ON
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _ALPHABLEND_ON
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHABLEND_ON
         passType: 4
@@ -221,11 +245,16 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _ALPHAPREMULTIPLY_ON
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHAPREMULTIPLY_ON
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHAPREMULTIPLY_ON
         passType: 4
       - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON _EMISSION
+        passType: 4
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHAPREMULTIPLY_ON
+          _EMISSION
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHAPREMULTIPLY_ON _EMISSION
         passType: 4
@@ -236,6 +265,10 @@ ShaderVariantCollection:
       - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN _METALLICGLOSSMAP
         passType: 4
       - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _METALLICGLOSSMAP _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _METALLICGLOSSMAP _NORMALMAP
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _METALLICGLOSSMAP
           _NORMALMAP
@@ -260,6 +293,11 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _METALLICGLOSSMAP _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _METALLICGLOSSMAP _NORMALMAP
+          _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _METALLICGLOSSMAP
           _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
         passType: 4
@@ -274,20 +312,30 @@ ShaderVariantCollection:
       - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN VERTEXLIGHT_ON _METALLICGLOSSMAP
           _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _SPECULARHIGHLIGHTS_OFF
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _METALLICGLOSSMAP _NORMALMAP
+          _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _METALLICGLOSSMAP
           _NORMALMAP _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _METALLICGLOSSMAP _NORMALMAP _SPECULARHIGHLIGHTS_OFF
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _ALPHABLEND_ON _METALLICGLOSSMAP _NORMALMAP
+          _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHABLEND_ON _METALLICGLOSSMAP
           _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHABLEND_ON _METALLICGLOSSMAP _NORMALMAP
           _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _GLOSSYREFLECTIONS_OFF
           _SPECULARHIGHLIGHTS_OFF
@@ -308,6 +356,12 @@ ShaderVariantCollection:
       - keywords: DIRECTIONAL _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP _NORMALMAP
           _SPECULARHIGHLIGHTS_OFF
         passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP
+          _NORMALMAP _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON SHADOWS_SCREEN _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP
+          _NORMALMAP _SPECULARHIGHLIGHTS_OFF
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _GLOSSYREFLECTIONS_OFF
           _METALLICGLOSSMAP _NORMALMAP _SPECULARHIGHLIGHTS_OFF
         passType: 4
@@ -321,6 +375,9 @@ ShaderVariantCollection:
           _METALLICGLOSSMAP _NORMALMAP _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL _ALPHABLEND_ON _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP
+          _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTMAP_ON _ALPHABLEND_ON _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP
           _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULARHIGHLIGHTS_OFF
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _ALPHABLEND_ON _GLOSSYREFLECTIONS_OFF
@@ -436,6 +493,8 @@ ShaderVariantCollection:
         passType: 5
       - keywords: DIRECTIONAL _SPECULARHIGHLIGHTS_OFF
         passType: 5
+      - keywords: SHADOWS_DEPTH SPOT _SPECULARHIGHLIGHTS_OFF
+        passType: 5
       - keywords: SHADOWS_DEPTH SHADOWS_SOFT SPOT _SPECULARHIGHLIGHTS_OFF
         passType: 5
       - keywords: SPOT _ALPHATEST_ON _SPECULARHIGHLIGHTS_OFF
@@ -526,6 +585,8 @@ ShaderVariantCollection:
       - keywords: EDITOR_VISUALIZATION _METALLICGLOSSMAP
         passType: 11
       - keywords: _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        passType: 11
+      - keywords: EDITOR_VISUALIZATION _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
         passType: 11
       - keywords: _METALLICGLOSSMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
         passType: 11
@@ -625,11 +686,6 @@ ShaderVariantCollection:
       - keywords: 
         passType: 0
   - first: {fileID: 9004, guid: 0000000000000000f000000000000000, type: 0}
-    second:
-      variants:
-      - keywords: 
-        passType: 0
-  - first: {fileID: 9006, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
       - keywords: 
@@ -866,10 +922,16 @@ ShaderVariantCollection:
   - first: {fileID: 14001, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
+      - keywords: DIRECTIONAL
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
       - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL
         passType: 4
       - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL LIGHTPROBE_SH
         passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
       - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL
         passType: 5
       - keywords: SHADOWS_DEPTH
@@ -903,6 +965,8 @@ ShaderVariantCollection:
         passType: 4
       - keywords: DIRECTIONAL _WINDQUALITY_NONE
         passType: 4
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON _WINDQUALITY_NONE
+        passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN _WINDQUALITY_NONE
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _WINDQUALITY_NONE
@@ -913,6 +977,9 @@ ShaderVariantCollection:
           _WINDQUALITY_NONE
         passType: 4
       - keywords: DIRECTIONAL LOD_FADE_PERCENTAGE _WINDQUALITY_NONE
+        passType: 4
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON LOD_FADE_PERCENTAGE
+          _WINDQUALITY_NONE
         passType: 4
       - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON LOD_FADE_PERCENTAGE
           SHADOWS_SCREEN _WINDQUALITY_NONE
@@ -967,7 +1034,15 @@ ShaderVariantCollection:
         passType: 8
       - keywords: LOD_FADE_PERCENTAGE SHADOWS_CUBE _WINDQUALITY_NONE
         passType: 8
+      - keywords: 
+        passType: 11
+      - keywords: EDITOR_VISUALIZATION
+        passType: 11
       - keywords: LOD_FADE_PERCENTAGE
+        passType: 11
+      - keywords: EDITOR_VISUALIZATION LOD_FADE_PERCENTAGE
+        passType: 11
+      - keywords: _WINDQUALITY_NONE
         passType: 11
       - keywords: EDITOR_VISUALIZATION _WINDQUALITY_NONE
         passType: 11
@@ -975,6 +1050,16 @@ ShaderVariantCollection:
         passType: 11
       - keywords: EDITOR_VISUALIZATION LOD_FADE_PERCENTAGE _WINDQUALITY_NONE
         passType: 11
+  - first: {fileID: 15100, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 15102, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
   - first: {fileID: 18000, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
@@ -986,6 +1071,11 @@ ShaderVariantCollection:
       - keywords: 
         passType: 0
   - first: {fileID: 18003, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 86212504c7e9f468db2300dc5932dc17, type: 3}
     second:
       variants:
       - keywords: 
@@ -1076,6 +1166,11 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
+  - first: {fileID: 4800000, guid: b1b2bfb2897659e45983f0c3e7dda2c8, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
   - first: {fileID: 4800000, guid: d248d4d1588851f43a9fa18a4e6f0209, type: 3}
     second:
       variants:
@@ -1089,6 +1184,11 @@ ShaderVariantCollection:
       - keywords: 
         passType: 0
       - keywords: FOG_OFF
+        passType: 0
+  - first: {fileID: 4800000, guid: 4bf49309c7ab9eb42a86774d2c09b4fa, type: 3}
+    second:
+      variants:
+      - keywords: 
         passType: 0
   - first: {fileID: 4800000, guid: 4ceb73bc148699b469361531d6062548, type: 3}
     second:
@@ -1149,8 +1249,23 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
+  - first: {fileID: 4800000, guid: dd89cf5b9246416f84610a006f916af7, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
   - first: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
     second:
       variants:
       - keywords: OUTLINE_ON
+        passType: 0
+  - first: {fileID: 9101, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9103, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
         passType: 0
